@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "928716689677",
+    "project_id": "tkdattendance-10957",
+    "storage_bucket": "tkdattendance-10957.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:928716689677:android:c96678c56edc0fd84ca044",
+        "android_client_info": {
+          "package_name": "taegeuktaekwondo.com.attendance"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "928716689677-vrpve9348dll8kvq5vas7ltvedh71bki.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB8hGMiKvNF9MnhPZJONFImYzuyEz2mf3g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "928716689677-vrpve9348dll8kvq5vas7ltvedh71bki.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
