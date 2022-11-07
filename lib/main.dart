@@ -23,17 +23,6 @@ class _AttendanceState extends State<Attendance> {
   String studentCode = " ";
   String scanResult = " ";
 
-  // void students() async {
-  //   DocumentSnapshot snap = await FirebaseFirestore.instance
-  //       .collection("students").
-  //       .doc("North")
-  //       .get();
-  //   setState(() {
-  //     studentCode = snap['code'];
-  //     if (scanResult == studentCode) print("success");
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
