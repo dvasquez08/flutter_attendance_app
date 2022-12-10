@@ -1,5 +1,5 @@
-import 'package:attendance/add_north.dart';
-import 'package:attendance/main.dart';
+import 'package:attendance/attendance_north.dart';
+import 'package:attendance/web/web_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -25,8 +25,9 @@ class _location_selectionState extends State<location_selection> {
     return Scaffold(
       backgroundColor: Colors.blueGrey,
       appBar: AppBar(
-        backgroundColor: Colors.indigo,
-        title: Text("Taeguek Taekwondo Attendance"),
+        backgroundColor: Colors.black26,
+        title: Text("Taeguek Taekwondo Attendance",
+            style: GoogleFonts.openSans(fontWeight: FontWeight.w300)),
         centerTitle: true,
       ),
       body: Container(
@@ -75,7 +76,7 @@ class _location_selectionState extends State<location_selection> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => Attendance(),
+                          builder: (context) => AttendanceNorth(),
                         ),
                       );
                     },
@@ -124,7 +125,7 @@ class _location_selectionState extends State<location_selection> {
                     textColor: Colors.white,
                     onPressed: () {},
                     child: Text(
-                      "South",
+                      "Terwillegar",
                       style: GoogleFonts.openSans(
                           fontSize: 30.0, fontWeight: FontWeight.w300),
                     ),
