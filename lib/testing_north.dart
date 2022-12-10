@@ -52,6 +52,7 @@ class _testingNorthState extends State<testingNorth> {
             SizedBox(height: 15.0),
             TextBlack("Scan your ID card below to checkin for testing", 25.0),
             SizedBox(height: 15.0),
+            // Section for how the scan button properties button properties
             GestureDetector(
               onTap: scanBarcode,
               child: Container(
@@ -75,6 +76,7 @@ class _testingNorthState extends State<testingNorth> {
                 ),
               ),
             ),
+          // End of section for the scan button properties
           ],
         ),
       ),
@@ -132,7 +134,9 @@ class _testingNorthState extends State<testingNorth> {
       ),
     );
   }
-
+  
+  // The function that makes the barcode scanner work
+  
   Future scanBarcode() async {
     try {
       scanResult = await FlutterBarcodeScanner.scanBarcode(
@@ -148,9 +152,35 @@ class _testingNorthState extends State<testingNorth> {
 
     setState(() => this.scanResult = scanResult);
 
-    // Telling the app what data to save
+    // Telling the app what data to save. This is saving the timestamp of when a studeng checked in for testing
+    // and the string for paper received. 
     Map<String, dynamic> dataToSend = {
+      'Attended': DateTime.now(),
+      'Paper': paper,
+    };
+
+    Map<String, dynamic> dataToSave = {
       'timestamp': DateTime.now(),
     };
+
+    code = scanResult;
+    
+    // Two Firebase instances where it adds the info to the student's name which was added by
+    // the ready_test page confirming that they attended testing and also puts a timestamp
+    // on the student's personal profile under the main students collection
+
+    FirebaseFirestore.instance
+        .collection('testing')
+        .doc('north')
+        .collection('TestDay')
+        .doc(code)
+        .collection('info')
+        .add(dataToSend);
+
+    FirebaseFirestore.instance
+        .collection('students')
+        .doc(code)
+        .collection('testing')
+        .add(dataToSave);
   }
 }
