@@ -1,8 +1,8 @@
-import 'package:attendance/main.dart';
-import 'package:attendance/ready_testing_north.dart';
+import 'package:attendance/attendance_north.dart';
 import 'package:attendance/testing_north.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
@@ -25,15 +25,19 @@ class readyTestNorth extends StatefulWidget {
 
 class _readyTestNorthState extends State<readyTestNorth> {
   String scanResult = " ";
+  String code = " ";
+  String readyTest = "Ready for Testing";
+  String info = "info";
 
   @override
   Widget build(BuildContext context) {
     var heightDevice = MediaQuery.of(context).size.height;
     var widthDevice = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.black26,
       appBar: AppBar(
-        title: Text("Student Ready for Testing"),
+        title: Text("Student Ready for Testing",
+            style: GoogleFonts.openSans(fontWeight: FontWeight.w300)),
         centerTitle: true,
         backgroundColor: Colors.transparent,
       ),
@@ -54,6 +58,7 @@ class _readyTestNorthState extends State<readyTestNorth> {
                 "Scan student ID card to add them to list of students that are ready for testing",
                 20.0),
             SizedBox(height: 15.0),
+            // Beginning of the button section, making it look nice
             GestureDetector(
               onTap: scanBarcode,
               child: Container(
@@ -77,6 +82,7 @@ class _readyTestNorthState extends State<readyTestNorth> {
                 ),
               ),
             ),
+            // end of button section
           ],
         ),
       ),
@@ -91,6 +97,7 @@ class _readyTestNorthState extends State<readyTestNorth> {
             Column(
               children: [
                 MaterialButton(
+                  shape: Border.all(color: Colors.black),
                   color: Colors.white,
                   onPressed: () {
                     Navigator.push(
@@ -107,12 +114,13 @@ class _readyTestNorthState extends State<readyTestNorth> {
                 ),
                 SizedBox(height: 15.0),
                 MaterialButton(
+                  shape: Border.all(color: Colors.black),
                   color: Colors.white,
                   onPressed: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => Attendance(),
+                        builder: (context) => AttendanceNorth(),
                       ),
                     );
                   },
@@ -128,7 +136,7 @@ class _readyTestNorthState extends State<readyTestNorth> {
       ),
     );
   }
-
+  // The function that makes the barcode scanner work
   Future scanBarcode() async {
     try {
       scanResult = await FlutterBarcodeScanner.scanBarcode(
@@ -145,8 +153,21 @@ class _readyTestNorthState extends State<readyTestNorth> {
     setState(() => this.scanResult = scanResult);
 
     // Telling the app what data to save
-    Map<String, dynamic> dataToSend = {
-      'timestamp': DateTime.now(),
+    Map<String, String> dataToSave = {
+      'Status': readyTest,
     };
+
+    code = scanResult;
+    // The Firebase instance that sends the student's code into a list for 
+    // students that are ready for testing, then the testing check-in page
+    //will update that same list when they scan in.
+    
+    FirebaseFirestore.instance
+        .collection('testing')
+        .doc('north')
+        .collection('TestDay')
+        .doc(code)
+        .collection('info')
+        .add(dataToSave);
   }
 }
