@@ -1,8 +1,10 @@
-import 'package:attendance/attendance_north.dart';
-import 'package:attendance/web/web_ui.dart';
+import 'package:attendance/North/attendance_north.dart';
+import 'package:attendance/Windermere/attendance_windermere.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'Terwilliger/attendance_terwilliger.dart';
+import 'West/attendance_west.dart';
 import 'components.dart';
 
 void main() {
@@ -101,7 +103,14 @@ class _location_selectionState extends State<location_selection> {
                   ),
                   child: MaterialButton(
                     textColor: Colors.white,
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => attendanceWest(),
+                        ),
+                      );
+                    },
                     child: Text(
                       "West",
                       style: GoogleFonts.openSans(
@@ -123,7 +132,14 @@ class _location_selectionState extends State<location_selection> {
                   ),
                   child: MaterialButton(
                     textColor: Colors.white,
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AttendanceTerwilliger(),
+                        ),
+                      );
+                    },
                     child: Text(
                       "Terwillegar",
                       style: GoogleFonts.openSans(
@@ -145,7 +161,14 @@ class _location_selectionState extends State<location_selection> {
                   ),
                   child: MaterialButton(
                     textColor: Colors.white,
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => attendanceWindermere(),
+                        ),
+                      );
+                    },
                     child: Text(
                       "Windermere",
                       style: GoogleFonts.openSans(
