@@ -27,7 +27,6 @@ class _AttendanceNorthState extends State<AttendanceNorth> {
   String timestamp = " ";
   String scanResult = " ";
   String code = " ";
-  String todayDate = " ";
 
   @override
   Widget build(BuildContext context) {
