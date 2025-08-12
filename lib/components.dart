@@ -7,6 +7,8 @@ import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 // that use the same font, buttons that look the same on multiple
 // pages, etc.
 
+// Custom text widget used throughout the app
+// This is used when white text is needed
 class SansText extends StatelessWidget {
   final text;
   final size;
@@ -23,6 +25,8 @@ class SansText extends StatelessWidget {
   }
 }
 
+// Replicate of the last cutom text widget
+// This one is used when black text is needed
 class TextBlack extends StatelessWidget {
   final text;
   final size;
@@ -38,6 +42,8 @@ class TextBlack extends StatelessWidget {
   }
 }
 
+//The component for the back button of the app, when navigating through the different pages for each location
+// This is placed on the cornder so the user can go to the previous screen
 class NavButton extends StatelessWidget {
   final text;
   final page;
@@ -64,6 +70,9 @@ class NavButton extends StatelessWidget {
   }
 }
 
+// The button component that initiates the barcode scanner.
+// Upon pressing this button, the barcode scanner is activated.
+// Being that there are multiple locations with their own barcode scanner, this component was created to keep the location's code base look neater
 class ScanButton extends StatefulWidget {
   const ScanButton({Key? key}) : super(key: key);
 
