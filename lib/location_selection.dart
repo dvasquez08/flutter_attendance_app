@@ -1,3 +1,6 @@
+// Import necessary packages and files for the application.
+// These include pages for different locations, Flutter's material design library,
+// Google Fonts for custom text styles, and a custom components file.
 import 'package:attendance/North/attendance_north.dart';
 import 'package:attendance/Windermere/attendance_windermere.dart';
 import 'package:flutter/material.dart';
@@ -7,9 +10,10 @@ import 'Terwilliger/attendance_terwilliger.dart';
 import 'West/attendance_west.dart';
 import 'components.dart';
 
+// The main entry point for the Flutter application.
 void main() {
   runApp(MaterialApp(
-      debugShowCheckedModeBanner: false, home: location_selection()));
+      debugShowCheckedModeBanner: false, home: location_selection())); // Setting the home screen of the app to be the location selector
 }
 
 class location_selection extends StatefulWidget {
@@ -22,9 +26,10 @@ class location_selection extends StatefulWidget {
 class _location_selectionState extends State<location_selection> {
   @override
   Widget build(BuildContext context) {
-    var heightDevice = MediaQuery.of(context).size.height;
-    var widthDevice = MediaQuery.of(context).size.width;
     return Scaffold(
+      
+      // The title section of the app. The background color of the app bar is transparent with black26.
+      // Text is customized with Google Fonts
       backgroundColor: Colors.blueGrey,
       appBar: AppBar(
         backgroundColor: Colors.black26,
@@ -32,6 +37,8 @@ class _location_selectionState extends State<location_selection> {
             style: GoogleFonts.openSans(fontWeight: FontWeight.w300)),
         centerTitle: true,
       ),
+
+      // The body of the scaffold contains the main content of the screen.
       body: Container(
         alignment: Alignment.center,
         decoration: const BoxDecoration(
@@ -43,6 +50,8 @@ class _location_selectionState extends State<location_selection> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+
+            // The logos of the three Taekwondo organizations that the school represents
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -51,15 +60,23 @@ class _location_selectionState extends State<location_selection> {
                 Image.asset("assets/wt_logo.png"),
               ],
             ),
+
+            // The title of the screen and app
+            // Text indicating to choose the location from here
             SizedBox(height: 15.0),
             SansText("Taeguek Taekwondo Attendance", 50.0),
             SizedBox(height: 15.0),
             SansText("Please select location below to begin", 25.0),
             SizedBox(height: 15.0),
+
+            // Button section. The buttons are listed here in a row of the different locations
+            // They are broken up into North, West, Terwillegar, and Windermere
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
+
+                // North school section
                 Container(
                   decoration: BoxDecoration(
                     color: Colors.red,
@@ -78,7 +95,7 @@ class _location_selectionState extends State<location_selection> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => AttendanceNorth(),
+                          builder: (context) => AttendanceNorth(), // Redirected to the attendance screen for the North location
                         ),
                       );
                     },
@@ -89,6 +106,8 @@ class _location_selectionState extends State<location_selection> {
                     ),
                   ),
                 ),
+
+                // West school section
                 Container(
                   decoration: BoxDecoration(
                     color: Colors.red,
@@ -107,7 +126,7 @@ class _location_selectionState extends State<location_selection> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => attendanceWest(),
+                          builder: (context) => attendanceWest(), // Redirected to the attendance screen for the West location
                         ),
                       );
                     },
@@ -118,6 +137,8 @@ class _location_selectionState extends State<location_selection> {
                     ),
                   ),
                 ),
+
+                // Terwillegar school section
                 Container(
                   decoration: BoxDecoration(
                     color: Colors.red,
@@ -136,7 +157,7 @@ class _location_selectionState extends State<location_selection> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => AttendanceTerwilliger(),
+                          builder: (context) => AttendanceTerwilliger(), // Redirected to the attendance screen for the Terwillegar location
                         ),
                       );
                     },
@@ -147,6 +168,8 @@ class _location_selectionState extends State<location_selection> {
                     ),
                   ),
                 ),
+
+                // Windermere school section
                 Container(
                   decoration: BoxDecoration(
                     color: Colors.red,
@@ -165,7 +188,7 @@ class _location_selectionState extends State<location_selection> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => attendanceWindermere(),
+                          builder: (context) => attendanceWindermere(), // Redirected to the attendance screen for the Windermere location
                         ),
                       );
                     },
@@ -184,3 +207,4 @@ class _location_selectionState extends State<location_selection> {
     );
   }
 }
+
