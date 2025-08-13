@@ -164,32 +164,31 @@ class _readyTestNorthState extends State<readyTestNorth> {
     );
   }
 
-  // The function that makes the barcode scanner work
+  // The function for the barcode scanner
   Future scanBarcode() async {
     try {
       scanResult = await FlutterBarcodeScanner.scanBarcode(
-        "#ff6677",
-        "Cancel",
-        true,
-        ScanMode.BARCODE,
+        "#ff6677", // Sets the color of the line across the scanner
+        "Cancel", // Adds the cancel button
+        true, // Boolean value to enable the flash
+        ScanMode.BARCODE, // Set  to Barcode mode, other option is QR mode for QR scanner
       );
     } on PlatformException {
-      scanResult = "Failed to get platform version.";
+      scanResult = "Failed to get platform version."; // Error handling
     }
-    if (!mounted) return;
+    if (!mounted) return; // Update the state with the result of the scan
 
     setState(() => this.scanResult = scanResult);
 
-    // Telling the app what data to save
+    // Telling the app what data to save which is the student that is ready for testing and prepare it for Firestore
     Map<String, String> dataToSave = {
       'Status': readyTest,
     };
 
-    code = scanResult;
-    // The Firebase instance that sends the student's code into a list for
-    // students that are ready for testing, then the testing check-in page
-    //will update that same list when they scan in.
+    code = scanResult; // Assign the scanned result to the 'code' variable.
 
+    // Saves the student info to the collection and document for the North, the sub-collection
+    // For testing day, indicating that the student is ready
     FirebaseFirestore.instance
         .collection('testing')
         .doc('north')
@@ -199,4 +198,5 @@ class _readyTestNorthState extends State<readyTestNorth> {
         .add(dataToSave);
   }
 }
+
 
