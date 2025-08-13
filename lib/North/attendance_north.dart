@@ -132,7 +132,7 @@ class _AttendanceNorthState extends State<AttendanceNorth> {
               children: [
 
                 // Senders user to the 'Ready for Testing' page
-                // This puts the students in the list of students who are ready for testing tday
+                // This puts the students in the list of students who are ready for testing today
                 MaterialButton(
                   shape: Border.all(color: Colors.black),
                   color: Colors.white,
@@ -233,5 +233,6 @@ class _AttendanceNorthState extends State<AttendanceNorth> {
         .add(dataToSave);
   }
 }
+
 
 
