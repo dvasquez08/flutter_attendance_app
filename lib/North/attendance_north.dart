@@ -200,19 +200,19 @@ class _AttendanceNorthState extends State<AttendanceNorth> {
   Future scanBarcode() async {
     try {
       scanResult = await FlutterBarcodeScanner.scanBarcode(
-        "#ff6677",
-        "Cancel",
-        true,
-        ScanMode.BARCODE,
+        "#ff6677", // Sets the color of the line across the scanner
+        "Cancel", // Adds the cancel button
+        true, // Boolean value to enable the flash
+        ScanMode.BARCODE, // Set  to Barcode mode, other option is QR mode for QR scanner
       );
     } on PlatformException {
-      scanResult = "Failed to get platform version.";
+      scanResult = "Failed to get platform version."; // Error handling
     }
     if (!mounted) return;
 
-    setState(() => this.scanResult = scanResult);
+    setState(() => this.scanResult = scanResult); // Update the state with the result of the scan
 
-    // Telling the app what data to save which is the timestamp
+    // Telling the app what data to save which is the timestamp and prepare it for Firestore
     Map<String, dynamic> dataToSend = {'timestamp': DateTime.now()};
     Map<String, dynamic> dataToSave = {'date': DateTime.now(), 'code': code};
 
@@ -220,12 +220,15 @@ class _AttendanceNorthState extends State<AttendanceNorth> {
     // Firestore.
     code = scanResult;
 
+    // Send the attendance timestamp to the student's own specific record in Firestore
     FirebaseFirestore.instance
         .collection('studentsNorth')
         .doc(code)
         .collection('Attendance')
         .add(dataToSend);
 
+    // Save the timestamp to a different list, showing all the student's timestamp 
+    // together for that day
     FirebaseFirestore.instance
         .collection('studentsNorth')
         .doc('all')
@@ -233,6 +236,7 @@ class _AttendanceNorthState extends State<AttendanceNorth> {
         .add(dataToSave);
   }
 }
+
 
 
 
