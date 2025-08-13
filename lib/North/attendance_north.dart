@@ -126,7 +126,7 @@ class _AttendanceNorthState extends State<AttendanceNorth> {
             const DrawerHeader(
                 decoration: BoxDecoration(color: Colors.red),
                 child: SansText('Menu', 30.0)),
-            // A column to hold the navigation buttons inside the drawer.
+            // This column holds the navigation buttons inside the drawer.
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -233,4 +233,5 @@ class _AttendanceNorthState extends State<AttendanceNorth> {
         .add(dataToSave);
   }
 }
+
 
