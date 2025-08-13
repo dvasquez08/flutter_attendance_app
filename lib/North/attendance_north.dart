@@ -216,9 +216,7 @@ class _AttendanceNorthState extends State<AttendanceNorth> {
     Map<String, dynamic> dataToSend = {'timestamp': DateTime.now()};
     Map<String, dynamic> dataToSave = {'date': DateTime.now(), 'code': code};
 
-    // This part sends the timestamp of the scanned barcode and sends it to
-    // Firestore.
-    code = scanResult;
+    code = scanResult; // Assign the scanned result to the 'code' variable.
 
     // Send the attendance timestamp to the student's own specific record in Firestore
     FirebaseFirestore.instance
@@ -236,6 +234,7 @@ class _AttendanceNorthState extends State<AttendanceNorth> {
         .add(dataToSave);
   }
 }
+
 
 
 
