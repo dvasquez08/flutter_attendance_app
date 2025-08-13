@@ -42,8 +42,7 @@ class TextBlack extends StatelessWidget {
   }
 }
 
-//The component for the back button of the app, when navigating through the different pages for each location
-// This is placed on the cornder so the user can go to the previous screen
+//The component for the navigation buttons on the Drawer menu on the side of the pages.
 class NavButton extends StatelessWidget {
   final text;
   final page;
