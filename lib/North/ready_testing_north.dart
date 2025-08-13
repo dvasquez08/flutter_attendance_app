@@ -1,14 +1,20 @@
+// Imports for other North location pages
 import 'package:attendance/North/attendance_north.dart';
 import 'package:attendance/North/testing_north.dart';
+// Firebase imports
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
+// Other Flutter imports
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+// Package imports
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'package:firebase_core/firebase_core.dart';
+// Importing the reusable code from components
 import '../components.dart';
 
+// Initializing Firebase. This function is async because Firebase initialization must be completed before the app runs
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -16,6 +22,7 @@ Future<void> main() async {
       MaterialApp(debugShowCheckedModeBanner: false, home: readyTestNorth()));
 }
 
+// This stateful widget manages the check-in process for students who are ready for testing at the North location.
 class readyTestNorth extends StatefulWidget {
   const readyTestNorth({Key? key}) : super(key: key);
 
@@ -24,6 +31,7 @@ class readyTestNorth extends StatefulWidget {
 }
 
 class _readyTestNorthState extends State<readyTestNorth> {
+  // State variables that show confirmation that the student is ready for testing and tracks their info
   String scanResult = " ";
   String code = " ";
   String readyTest = "Ready for Testing";
@@ -31,9 +39,12 @@ class _readyTestNorthState extends State<readyTestNorth> {
 
   @override
   Widget build(BuildContext context) {
+    // These variables capture the device's screen dimensions.
+    // They are used here for adjusting the size of containers and adding responsiveness.
     var heightDevice = MediaQuery.of(context).size.height;
     var widthDevice = MediaQuery.of(context).size.width;
     return Scaffold(
+      //App bar section that contains the screen title
       backgroundColor: Colors.black26,
       appBar: AppBar(
         title: Text("Student Ready for Testing North",
@@ -41,14 +52,17 @@ class _readyTestNorthState extends State<readyTestNorth> {
         centerTitle: true,
         backgroundColor: Colors.transparent,
       ),
+      // Main content of the screen, also sets the background image
       body: Container(
         alignment: Alignment.center,
         decoration: const BoxDecoration(
           image: DecorationImage(
               image: AssetImage("assets/class4.png"), fit: BoxFit.cover),
         ),
+        // Column arranges the content in a vertical array.
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          // Main screen header that contains the logo shows instructions to add student to ready list
           children: [
             Image.asset("assets/new-logo.png"),
             SizedBox(height: 15.0),
@@ -58,7 +72,8 @@ class _readyTestNorthState extends State<readyTestNorth> {
                 "Scan student ID card to add them to list of students that are ready for testing",
                 20.0),
             SizedBox(height: 15.0),
-            // Beginning of the button section, making it look nice
+
+            // Section for the button to press for scanning
             GestureDetector(
               onTap: scanBarcode,
               child: Container(
@@ -86,16 +101,25 @@ class _readyTestNorthState extends State<readyTestNorth> {
           ],
         ),
       ),
+
+      // Drawer for the slide-out menu for navigation.
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
+            
+            // The header for the drawer.
             DrawerHeader(
               decoration: BoxDecoration(color: Colors.red),
               child: SansText("menu", 30.0),
             ),
+
+            // This column holds the navigation buttons inside the drawer.
             Column(
               children: [
+
+                // Senders user to the 'Testing Check-in' page
+                // This will add the student to the attendance list for testing day
                 MaterialButton(
                   shape: Border.all(color: Colors.black),
                   color: Colors.white,
@@ -113,6 +137,9 @@ class _readyTestNorthState extends State<readyTestNorth> {
                   ),
                 ),
                 SizedBox(height: 15.0),
+
+                // Routest the user back to the main page for the North school
+                // Which is the main class attendance page
                 MaterialButton(
                   shape: Border.all(color: Colors.black),
                   color: Colors.white,
@@ -172,3 +199,4 @@ class _readyTestNorthState extends State<readyTestNorth> {
         .add(dataToSave);
   }
 }
+
