@@ -1,14 +1,20 @@
+// Imports of other pages for the Terwilliger location and to the main page
 import 'package:attendance/Terwilliger/ready_testing_terwilliger.dart';
 import 'package:attendance/Terwilliger/testing_terwilliger.dart';
 import 'package:attendance/location_selection.dart';
+// Firestore imports
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
+// Flutter imports
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+// Package imports such as Google fonts and the barcode scanner package
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'package:firebase_core/firebase_core.dart';
+// Importing reusable code from the components dart file
 import '../components.dart';
 
+// Initializing Firebase. This function is async because Firebase initialization must be completed before the app runs
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -16,6 +22,7 @@ Future<void> main() async {
       debugShowCheckedModeBanner: false, home: AttendanceTerwilliger()));
 }
 
+// A StatefulWidget that manages the attendance check-in process for the Terwilliger location.
 class AttendanceTerwilliger extends StatefulWidget {
   const AttendanceTerwilliger({Key? key}) : super(key: key);
 
@@ -24,6 +31,8 @@ class AttendanceTerwilliger extends StatefulWidget {
 }
 
 class _AttendanceTerwilligerState extends State<AttendanceTerwilliger> {
+
+  // State variables to hold the timestamp, the result of the barcode scan, and the student's code.
   String timestamp = " ";
   String scanResult = " ";
   String code = " ";
@@ -31,9 +40,14 @@ class _AttendanceTerwilligerState extends State<AttendanceTerwilliger> {
 
   @override
   Widget build(BuildContext context) {
+
+    // These variables capture the device's screen dimensions.
+    // They are used here for adjusting the size of containers and adding responsiveness.
     var heightDevice = MediaQuery.of(context).size.height;
     var widthDevice = MediaQuery.of(context).size.width;
     return Scaffold(
+
+      //App bar section that contains the screen title
       backgroundColor: Colors.transparent,
       appBar: AppBar(
         backgroundColor: Colors.black26,
@@ -41,6 +55,8 @@ class _AttendanceTerwilligerState extends State<AttendanceTerwilliger> {
             style: GoogleFonts.openSans(fontWeight: FontWeight.w300)),
         centerTitle: true,
       ),
+
+      // Main content of the screen, also sets the background image
       body: Container(
         alignment: Alignment.center,
         decoration: const BoxDecoration(
@@ -49,8 +65,12 @@ class _AttendanceTerwilligerState extends State<AttendanceTerwilliger> {
             fit: BoxFit.cover,
           ),
         ),
+
+        // Column arranges the content in a vertical array.
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+
+          // Welcome section that contains the logo and directs the user to scan their barcode
           children: [
             Image.asset("assets/new-logo.png"),
             SizedBox(height: 15.0),
@@ -59,11 +79,13 @@ class _AttendanceTerwilligerState extends State<AttendanceTerwilliger> {
             SansText("Please scan your ID card to check-in:", 25.0),
             SizedBox(height: 15.0),
 
-            // Here, I made a widget called ScanButton which takes the Gesture
-            // detector used from the North pages and condenses it to just one
-            // line of code here. This too is added in components.
+            // Pulling the ScanButton component from the components file. This takes
+            // The Gesture detector used in the North pages and condenses it to just
+            // this single line here.
             ScanButton(),
             SizedBox(height: 15.0),
+            
+            // What will appear when scanning the barcode
             Text(
               scanResult == null ? "Scan a code!" : "Thank you",
               style: TextStyle(fontSize: 25.0, color: Colors.white),
@@ -71,10 +93,13 @@ class _AttendanceTerwilligerState extends State<AttendanceTerwilliger> {
           ],
         ),
       ),
+
+      // Drawer for the slide-out menu for navigation.
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
+            // The header for the drawer.
             const DrawerHeader(
                 decoration: BoxDecoration(color: Colors.red),
                 child: SansText('Menu', 30.0)),
@@ -84,11 +109,11 @@ class _AttendanceTerwilligerState extends State<AttendanceTerwilliger> {
               // and more readable. All widgets made are found in components.dart
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                NavButton("Ready for Testing", readyTestTerwilliger()),
+                NavButton("Ready for Testing", readyTestTerwilliger()), // The page to add students to the list that are ready for testing
                 SizedBox(height: 15.0),
-                NavButton("Testing Check-in", testingTerwilliger()),
+                NavButton("Testing Check-in", testingTerwilliger()), // To the attendance page for testing day
                 SizedBox(height: 15.0),
-                NavButton("Select Another Location", location_selection())
+                NavButton("Select Another Location", location_selection()) // Takes user to app's main location selector page
               ],
             )
           ],
@@ -101,33 +126,33 @@ class _AttendanceTerwilligerState extends State<AttendanceTerwilliger> {
   Future scanBarcode() async {
     try {
       scanResult = await FlutterBarcodeScanner.scanBarcode(
-        "#ff6677",
-        "Cancel",
-        true,
-        ScanMode.BARCODE,
+        "#ff6677", // Sets the color of the line across the scanner
+        "Cancel", // Adds the cancel button
+        true, // Boolean value to enable the flash
+        ScanMode.BARCODE, // Set  to Barcode mode, other option is QR mode for QR scanner
       );
     } on PlatformException {
-      scanResult = "Failed to get platform version.";
+      scanResult = "Failed to get platform version."; // Error handling
     }
-    if (!mounted) return;
+    if (!mounted) return; // Update the state with the result of the scan
 
-    setState(() => this.scanResult = scanResult);
+    setState(() => this.scanResult = scanResult); 
 
-    // Telling the app what data to save. This is saving the timestamp and the code
-    // which sends data to two different docimemts
+    // Telling the app what data to save which is the timestamp and prepare it for Firestore
     Map<String, dynamic> dataToSend = {'timestamp': DateTime.now()};
     Map<String, dynamic> dataToSave = {'date': DateTime.now(), 'code': code};
 
-    // This part sends the timestamp of the scanned barcode and sends it to
-    // Firestore.
-    code = scanResult;
+    code = scanResult; // Assign the scanned result to the 'code' variable.
 
+    // Send the attendance timestamp to the student's own specific record in Firestore
     FirebaseFirestore.instance
         .collection('studentsTerwilliger')
         .doc(code)
         .collection('Attendance')
         .add(dataToSend);
 
+    // Save the timestamp to a different list, showing all the student's timestamp 
+    // together for that day
     FirebaseFirestore.instance
         .collection('studentsTerwilliger')
         .doc('all')
@@ -135,3 +160,4 @@ class _AttendanceTerwilligerState extends State<AttendanceTerwilliger> {
         .add(dataToSave);
   }
 }
+
