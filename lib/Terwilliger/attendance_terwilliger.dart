@@ -134,9 +134,11 @@ class _AttendanceTerwilligerState extends State<AttendanceTerwilliger> {
     } on PlatformException {
       scanResult = "Failed to get platform version."; // Error handling
     }
-    if (!mounted) return; // Update the state with the result of the scan
+    // A check to ensure the widget is still in the widget tree before updating state.
+    // This prevents errors if the user navigates away while scanning is in progress.
+    if (!mounted) return; 
 
-    setState(() => this.scanResult = scanResult); 
+    setState(() => this.scanResult = scanResult); // Update the state with the result of the scan
 
     // Telling the app what data to save which is the timestamp and prepare it for Firestore
     Map<String, dynamic> dataToSend = {'timestamp': DateTime.now()};
@@ -160,4 +162,5 @@ class _AttendanceTerwilligerState extends State<AttendanceTerwilliger> {
         .add(dataToSave);
   }
 }
+
 
